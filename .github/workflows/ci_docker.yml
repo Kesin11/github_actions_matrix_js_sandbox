@@ -17,12 +17,10 @@ jobs:
       with:
         args: node --version
 
-    - name: "ls -l"
-      uses: docker://circleci/node:10
-      with:
-        args: ls -l /github/**
-
     - name: "whoami"
+      run: whoami
+
+    - name: "whoami in docker"
       uses: docker://circleci/node:10
       with:
         args: whoami
@@ -31,6 +29,9 @@ jobs:
       uses: docker://circleci/node:10
       with:
         args: sudo whoami
+
+    - name: "ls -l"
+      run: ls -l /github/**
 
     - name: "npm ci"
       uses: docker://circleci/node:10
