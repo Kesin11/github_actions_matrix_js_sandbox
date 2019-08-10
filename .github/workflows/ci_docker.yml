@@ -19,7 +19,7 @@ jobs:
     - name: "npm ci"
       uses: docker://circleci/node:10
       with:
-        args: npm ci
+        args: sudo npm ci
 
     - name: "npm run build"
       uses: docker://circleci/node:10
