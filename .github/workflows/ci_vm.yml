@@ -1,5 +1,5 @@
-name: "PR Checks"
-on: [pull_request, push]
+name: "CI in VM"
+on: [push]
 
 jobs:
   check_pr:
