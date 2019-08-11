@@ -3,17 +3,20 @@ on: [push]
 
 jobs:
   check_pr:
-    # strategy:
-    #   matrix:
-    #     tag: [10, 12, lts]
+    strategy:
+      matrix:
+        tag: [10, 12, lts]
 
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
 
+    - name: "echo"
+      run: echo ${{ matrix.tag }}
+
     # with: args:でdocker内でコマンドを実行できることは https://github.com/actions/migrate/blob/1ea00e246e24e694f2d3d6c269c964d61548c89d/fixtures/action-args-runs/.github/workflows/push.yml 参照
     - name: "node version"
-      uses: docker://node:10
+      uses: "docker://node:${{ matrix.tag }}"
       with:
         args: node --version
 
