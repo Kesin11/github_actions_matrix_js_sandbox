@@ -30,16 +30,8 @@ jobs:
       with:
         args: sudo whoami
 
-    - name: "env"
+    - name: "env in VM"
       run: env
-      continue-on-error: true
-
-    - name: "ls -l"
-      run: ls -l /home/**
-      continue-on-error: true
-
-    - name: "ls -l"
-      run: ls -l /home/runners
       continue-on-error: true
 
     - name: "env in docker"
@@ -48,11 +40,19 @@ jobs:
       with:
         args: env
 
-    - name: "ls -l in docker"
+    - name: "ls -l"
+      run: ls -l /home/**
+      continue-on-error: true
+
+    - name: "ls -l GITHUB_WORKSPACE in VM"
+      run: ls -l $GITHUB_WORKSPACE
+      continue-on-error: true
+
+    - name: "ls -l /github/workspace in docker"
       uses: docker://circleci/node:10
       continue-on-error: true
       with:
-        args: ls -l /home/**
+        args: sudo ls -l /github/workspace
 
     # SUDOを付ける必要があるのは、docker内のuserとVMのuserが異なるから、だろうか？
     - name: "npm ci"
