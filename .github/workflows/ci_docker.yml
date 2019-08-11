@@ -20,7 +20,7 @@ jobs:
 
     # with: args:でdocker内でコマンドを実行できることは https://github.com/actions/migrate/blob/1ea00e246e24e694f2d3d6c269c964d61548c89d/fixtures/action-args-runs/.github/workflows/push.yml 参照
     - name: "node version"
-      uses: ${{ join('docker://node:', matrix.tag) }}
+      uses: ${{ join('docker://node:', '10') }}
       with:
         args: node --version
 
