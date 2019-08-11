@@ -30,20 +30,23 @@ jobs:
       with:
         args: sudo whoami
 
-    # TODO: なぜかこれがそんなディレクトリは無いと怒られる
     - name: "ls -l"
       run: ls -l /home/**
+      continue-on-error: true
 
     - name: "ls -l"
-      run: ls -l /**
+      run: ls -l /workspace/**
+      continue-on-error: true
 
     - name: "ls -l in docker"
       uses: docker://circleci/node:10
+      continue-on-error: true
       with:
         args: ls -l /**
 
     - name: "ls -l in docker"
       uses: docker://circleci/node:10
+      continue-on-error: true
       with:
         args: ls -l /github/**
 
