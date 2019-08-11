@@ -1,5 +1,5 @@
 name: "CI in VM"
-# on: [push]
+on: [push]
 
 jobs:
   check_pr:
