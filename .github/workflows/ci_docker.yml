@@ -30,9 +30,14 @@ jobs:
       with:
         args: sudo whoami
 
+    # TODO: なぜかこれがそんなディレクトリは無いと怒られる
     - name: "ls -l"
-      run: ls -l /github/**
+      run: ls -l /home/**
 
+    - name: "ls -l"
+      run: ls -l /home/runner
+
+    # SUDOを付ける必要があるのは、docker内のuserとVMのuserが異なるから、だろうか？
     - name: "npm ci"
       uses: docker://circleci/node:10
       with:
