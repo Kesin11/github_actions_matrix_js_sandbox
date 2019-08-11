@@ -30,6 +30,10 @@ jobs:
       with:
         args: sudo whoami
 
+    - name: "env"
+      run: env
+      continue-on-error: true
+
     - name: "ls -l"
       run: ls -l /home/**
       continue-on-error: true
