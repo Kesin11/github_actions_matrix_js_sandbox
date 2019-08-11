@@ -39,20 +39,20 @@ jobs:
       continue-on-error: true
 
     - name: "ls -l"
-      run: ls -l /workspace/**
+      run: ls -l /home/runners
       continue-on-error: true
+
+    - name: "env in docker"
+      uses: docker://circleci/node:10
+      continue-on-error: true
+      with:
+        args: env
 
     - name: "ls -l in docker"
       uses: docker://circleci/node:10
       continue-on-error: true
       with:
-        args: ls -l /**
-
-    - name: "ls -l in docker"
-      uses: docker://circleci/node:10
-      continue-on-error: true
-      with:
-        args: ls -l /github/**
+        args: ls -l /home/**
 
     # SUDOを付ける必要があるのは、docker内のuserとVMのuserが異なるから、だろうか？
     - name: "npm ci"
