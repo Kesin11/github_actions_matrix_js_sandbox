@@ -1,0 +1,67 @@
+name: "CI in docker"
+on: [push]
+
+jobs:
+  check_pr:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+
+    # with: args:でdocker内でコマンドを実行できることは https://github.com/actions/migrate/blob/1ea00e246e24e694f2d3d6c269c964d61548c89d/fixtures/action-args-runs/.github/workflows/push.yml 参照
+    - name: "node version"
+      uses: docker://node:10
+      with:
+        args: node --version
+
+    - name: "whoami"
+      run: whoami
+      continue-on-error: true
+
+    - name: "whoami in docker"
+      uses: docker://node:10
+      continue-on-error: true
+      with:
+        args: whoami
+
+    - name: "env in VM"
+      run: env
+      continue-on-error: true
+
+    - name: "env in docker"
+      uses: docker://node:10
+      continue-on-error: true
+      with:
+        args: env
+
+    - name: "ls -l"
+      run: ls -l /home/**
+      continue-on-error: true
+
+    - name: "ls -l GITHUB_WORKSPACE in VM"
+      run: ls -l $GITHUB_WORKSPACE
+      continue-on-error: true
+
+    - name: "ls -l /github/workspace in docker"
+      uses: docker://node:10
+      continue-on-error: true
+      with:
+        args: ls -l /github/workspace
+
+    # dockerがデフォルトのrootで実行されていないと/github/workspaceへのアクセスがpermission deniedになってしまう
+    # そのため、使用するイメージのDockerfileの中でUSERの指定がされているとダメ
+    # https://help.github.com/en/articles/virtual-environments-for-github-actions
+    # circleci/nodeなどはUSERが指定されているが、その場合でもsudoを付けて実行してしまえば多分大丈夫ではあるけど
+    - name: "npm ci"
+      uses: docker://node:10
+      with:
+        args: npm ci
+
+    - name: "npm run build"
+      uses: docker://node:10
+      with:
+        args: npm run build
+
+    - name: "npm run test"
+      uses: docker://node:10
+      with:
+        args: npm run test

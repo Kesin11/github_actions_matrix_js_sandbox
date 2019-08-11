@@ -1,5 +1,5 @@
-name: "PR Checks"
-on: [pull_request, push]
+name: "CI in VM"
+on: [push]
 
 jobs:
   check_pr:
@@ -15,6 +15,9 @@ jobs:
       uses: actions/setup-node@master
       with:
         version: ${{ matrix.node }}
+
+    - name: "node version"
+      run: node --version
 
     - name: "npm ci"
       run: npm ci
