@@ -3,9 +3,9 @@ on: [push]
 
 jobs:
   check_pr:
-    strategy:
-      matrix:
-        tag: [10, 12, lts]
+    # strategy:
+    #   matrix:
+    #     tag: [10, 12, lts]
 
     runs-on: ubuntu-latest
     steps:
@@ -35,7 +35,12 @@ jobs:
       run: ls -l /home/**
 
     - name: "ls -l"
-      run: ls -l /home/runner
+      run: ls -l /workspace
+
+    - name: "ls -l in docker"
+      uses: docker://circleci/node:10
+      with:
+        args: ls -l /github/**
 
     # SUDOを付ける必要があるのは、docker内のuserとVMのuserが異なるから、だろうか？
     - name: "npm ci"
