@@ -12,7 +12,5 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: "node version"
-      uses: docker://node:${{ matrix.node }}
-      continue-on-error: true
-      with:
-        args: node --version
+      uses: docker://node:12
+      args: node --version
