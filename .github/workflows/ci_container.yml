@@ -9,6 +9,9 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
+    - run: whoami
+    - run: env
+
     - name: "node version"
       run: node --version
 
