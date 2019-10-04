@@ -3,6 +3,7 @@ on: [push]
 
 jobs:
   check_pr:
+    runs-on: ubuntu-latest
     container:
       image: node:12
     steps:
