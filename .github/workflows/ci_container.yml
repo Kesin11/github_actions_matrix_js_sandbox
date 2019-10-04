@@ -28,3 +28,16 @@ jobs:
 
     - name: "npm run test"
       run: npm run test
+
+  container_env:
+    strategy:
+      matrix:
+        container: ["debian:latest", "ubuntu:latest", "alpine:latest"]
+
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ matrix.container }}
+    steps:
+    - run: whoami
+    - run: uname -a
+    - run: ls -l /bin/*
