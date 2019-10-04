@@ -1,0 +1,16 @@
+name: "Blog"
+on: [push]
+
+jobs:
+  check_pr:
+    strategy:
+      matrix:
+        node: [10.x, 12.x]
+        os: [ubuntu-18.04, ubuntu-16.04]
+
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v1
+    - name: "node version"
+      uses: docker://node:12
+      args: node --version
