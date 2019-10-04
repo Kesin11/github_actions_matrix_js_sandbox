@@ -27,6 +27,16 @@ jobs:
       run: env
       continue-on-error: true
 
+    - name: "uname in VM"
+      run: uname -a
+      continue-on-error: true
+
+    - name: "uname in docker"
+      uses: docker://node:10
+      continue-on-error: true
+      with:
+        args: uname -a
+
     - name: "env in docker"
       uses: docker://node:10
       continue-on-error: true
