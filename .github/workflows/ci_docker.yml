@@ -1,4 +1,4 @@
-name: "CI in docker"
+name: "CI with VM + docker step"
 on: [push]
 
 jobs:

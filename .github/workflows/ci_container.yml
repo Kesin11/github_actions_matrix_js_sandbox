@@ -1,4 +1,4 @@
-name: "Blog"
+name: "CI in Container"
 on: [push]
 
 jobs:
