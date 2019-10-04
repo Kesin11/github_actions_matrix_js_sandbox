@@ -39,5 +39,5 @@ jobs:
       image: ${{ matrix.container }}
     steps:
     - run: whoami
-    - run: uname -a
     - run: ls -l /bin/*
+    - run: cat /etc/issue
