@@ -5,7 +5,7 @@ jobs:
   check_pr:
     strategy:
       matrix:
-        container: ["node:8", "node:10", "node:12", "node-alpine", "node:latest"]
+        container: ["node:8", "node:10", "node:12", "node:alpine"]
 
     runs-on: ubuntu-latest
     container:
