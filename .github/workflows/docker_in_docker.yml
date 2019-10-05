@@ -13,5 +13,15 @@ jobs:
     - run: uname -a
     - run: env
 
-    - run: docker build -t self .
-    - run: docker run self
+    # build image using "docker in docker"
+    - run: docker build -t self_build .
+
+  docker_run_self:
+    needs: docker_build
+    runs-on: ubuntu-latest
+    container:
+      # self built image can use
+      image: self_build
+
+    steps:
+      - run: node --version
