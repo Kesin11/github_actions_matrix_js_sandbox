@@ -20,8 +20,10 @@ jobs:
     needs: docker_build
     runs-on: ubuntu-latest
     container:
-      # self built image can use
-      image: self_build
+      image: docker
+      # if you enable github package registory beta program, it may be use for docker push and pull
+      # image: docker.pkg.github.com/Kesin11/docker.github_actions_matrix_js_sandbox/github_actions_matrix_js_sandbox:latest
 
     steps:
-      - run: node --version
+      # self built image can use
+      - run: docker run self_build
