@@ -1,0 +1,17 @@
+name: "Docker in Docker"
+on: [push]
+
+jobs:
+  docker_build:
+    runs-on: ubuntu-latest
+    container:
+      image: docker
+    steps:
+    - uses: actions/checkout@v1
+
+    - run: whoami
+    - run: uname -a
+    - run: env
+
+    - run: docker build -t self .
+    - run: docker run self
