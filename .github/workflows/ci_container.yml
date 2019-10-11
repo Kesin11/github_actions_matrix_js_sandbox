@@ -29,6 +29,12 @@ jobs:
     - name: "npm run test"
       run: npm run test
 
+    - uses: actions/upload-artifact@master
+      with:
+        name: test-report
+        path: report/
+
+
   container_env:
     strategy:
       matrix:
