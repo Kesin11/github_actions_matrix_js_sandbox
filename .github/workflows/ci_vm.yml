@@ -29,6 +29,9 @@ jobs:
     - name: "npm run build"
       run: npm run build
 
+    - name: "npm run test with only 1 parallel"
+      run: npm run test -- --runInBand
+
     - name: "npm run test"
       run: npm run test
 
