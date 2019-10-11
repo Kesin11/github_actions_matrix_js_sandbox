@@ -7,5 +7,12 @@ module.exports = {
   transform: {
     '^.+\\.ts$': 'ts-jest'
   },
-  verbose: true
+  verbose: true,
+  reporters: [
+    "default",
+    ["jest-html-reporters", {
+      publicPath: "./report",
+      filename: "report.html"
+    }]
+  ]
 }
