@@ -2,7 +2,7 @@ name: "Docker in Docker"
 on: [push]
 
 jobs:
-  docker_build_and_run_self:
+  docker_build_and_run:
     runs-on: ubuntu-latest
     container:
       image: docker
@@ -13,22 +13,29 @@ jobs:
     - run: uname -a
     - run: env
 
+    # docker login to github package registry
+    - name: docker login
+      run: |
+        docker login docker.pkg.github.com \
+          -u Kesin11 \
+          -p "${{ secrets.GITHUB_PACKAGE_REGISTRY_TOKEN }}"
+
     # build image using "docker in docker"
-    - run: docker build -t self_build .
+    # with cache from pushed image that built before
+    - name: docker build
+      run: |
+        docker build \
+          --cache-from docker.pkg.github.com/kesin11/github_actions_matrix_js_sandbox/self_build:latest \
+          -t docker.pkg.github.com/kesin11/github_actions_matrix_js_sandbox/self_build .
 
-    # you can run built image
-    - run: docker run self_build
+    # run built image
+    - name: docker run
+      run: docker run docker.pkg.github.com/kesin11/github_actions_matrix_js_sandbox/self_build
 
-  # if you enable github package registory beta program,
-  # you can use image built and pushed before job maybe I think.
-  # docker_run_self:
-  #   needs: docker_build
-  #   runs-on: ubuntu-latest
-  #   container:
-  #     image: docker.pkg.github.com/Kesin11/docker.github_actions_matrix_js_sandbox/github_actions_matrix_js_sandbox:latest
-
-  #   steps:
-  #     - run: node --version
+    # docker push to github package registry
+    - name: docker push
+      run: docker push docker.pkg.github.com/kesin11/github_actions_matrix_js_sandbox/self_build:latest
+    # - run: docker push docker.pkg.github.com/kesin11/github_actions_matrix_js_sandbox/self_build:${{ GITHUB_SHA }}
 
   use_internal_action:
     runs-on: ubuntu-latest
