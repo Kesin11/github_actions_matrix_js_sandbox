@@ -32,6 +32,13 @@ jobs:
     - name: docker run
       run: docker run docker.pkg.github.com/kesin11/github_actions_matrix_js_sandbox/self_build
 
+    - name: docker tag
+      run: |
+        docker tag \
+          docker.pkg.github.com/kesin11/github_actions_matrix_js_sandbox/self_build \
+          docker.pkg.github.com/kesin11/github_actions_matrix_js_sandbox/self_build:${{ github.sha }}
+
+
     # docker push to github package registry
     - name: docker push
       run: |
