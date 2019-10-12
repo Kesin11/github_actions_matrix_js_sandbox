@@ -1,0 +1,10 @@
+name: "Issue trigger"
+on:
+  issue_comment:
+    types: [created, edited, deleted]
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo ${{ toJson(github.event) }}
