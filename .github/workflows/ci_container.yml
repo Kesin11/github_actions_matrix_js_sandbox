@@ -1,0 +1,49 @@
+name: "CI in Container"
+on: [push]
+
+jobs:
+  check_pr:
+    strategy:
+      matrix:
+        container: ["node:8", "node:10", "node:12", "node:alpine"]
+
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ matrix.container }}
+    steps:
+    - uses: actions/checkout@v1
+
+    - run: whoami
+    - run: uname -a
+    - run: env
+
+    - name: "node version"
+      run: node --version
+
+    - name: "npm ci"
+      run: npm ci
+
+    - name: "npm run build"
+      run: npm run build
+
+    - name: "npm run test"
+      run: npm run test
+
+    - uses: actions/upload-artifact@master
+      with:
+        name: test-report
+        path: report/
+
+
+  container_env:
+    strategy:
+      matrix:
+        container: ["debian:latest", "ubuntu:latest", "alpine:latest"]
+
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ matrix.container }}
+    steps:
+    - run: whoami
+    - run: ls -l /bin/*
+    - run: cat /etc/issue

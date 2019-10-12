@@ -1,0 +1,53 @@
+name: "Docker in Docker"
+on: [push]
+
+jobs:
+  docker_build_and_run:
+    runs-on: ubuntu-latest
+    container:
+      image: docker
+    steps:
+    - uses: actions/checkout@v1
+
+    - run: whoami
+    - run: uname -a
+    - run: env
+
+    # docker login to github package registry
+    - name: docker login
+      run: |
+        docker login docker.pkg.github.com \
+          -u Kesin11 \
+          -p "${{ secrets.GITHUB_PACKAGE_REGISTRY_TOKEN }}"
+
+    # build image using "docker in docker"
+    # with cache from pushed image that built before
+    - name: docker build
+      run: |
+        docker build \
+          --cache-from docker.pkg.github.com/kesin11/github_actions_matrix_js_sandbox/self_build:latest \
+          -t docker.pkg.github.com/kesin11/github_actions_matrix_js_sandbox/self_build .
+
+    # run built image
+    - name: docker run
+      run: docker run docker.pkg.github.com/kesin11/github_actions_matrix_js_sandbox/self_build
+
+    - name: docker tag
+      run: |
+        docker tag \
+          docker.pkg.github.com/kesin11/github_actions_matrix_js_sandbox/self_build \
+          docker.pkg.github.com/kesin11/github_actions_matrix_js_sandbox/self_build:${{ github.sha }}
+
+
+    # docker push to github package registry
+    - name: docker push
+      run: |
+        docker push docker.pkg.github.com/kesin11/github_actions_matrix_js_sandbox/self_build:latest
+        docker push docker.pkg.github.com/kesin11/github_actions_matrix_js_sandbox/self_build:${{ github.sha }}
+
+  use_internal_action:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+
+    - uses: ./.github/actions/my_action

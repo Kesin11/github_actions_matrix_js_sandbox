@@ -14,7 +14,11 @@ jobs:
     - name: Setup node version
       uses: actions/setup-node@master
       with:
-        version: ${{ matrix.node }}
+        node-version: ${{ matrix.node }}
+
+    - run: whoami
+    - run: uname -a
+    - run: env
 
     - name: "node version"
       run: node --version
@@ -25,8 +29,16 @@ jobs:
     - name: "npm run build"
       run: npm run build
 
+    - name: "npm run test with only 1 worker"
+      run: npm run test -- -w=1
+
     - name: "npm run test"
       run: npm run test
+
+    - uses: actions/upload-artifact@master
+      with:
+        name: test-report
+        path: report/
 
     - name: "check format"
       run: npm run format-check
