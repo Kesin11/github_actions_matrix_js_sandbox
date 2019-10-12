@@ -34,8 +34,9 @@ jobs:
 
     # docker push to github package registry
     - name: docker push
-      run: docker push docker.pkg.github.com/kesin11/github_actions_matrix_js_sandbox/self_build:latest
-    # - run: docker push docker.pkg.github.com/kesin11/github_actions_matrix_js_sandbox/self_build:${{ GITHUB_SHA }}
+      run: |
+        docker push docker.pkg.github.com/kesin11/github_actions_matrix_js_sandbox/self_build:latest
+        docker push docker.pkg.github.com/kesin11/github_actions_matrix_js_sandbox/self_build:${{ github.sha }}
 
   use_internal_action:
     runs-on: ubuntu-latest
