@@ -11,7 +11,20 @@ jobs:
     - name: "node version"
       uses: docker://node:10
       with:
-        args: node --version
+        args: --version
+
+    - name: "node version args"
+      uses: docker://node:10
+      continue-on-error: true
+      with:
+        args: echo "foo bar"
+
+    - name: "node version entrypoint"
+      uses: docker://node:10
+      continue-on-error: true
+      with:
+        entrypoint: /bin/echo
+        args: "pass entrypoint"
 
     - name: "whoami"
       run: whoami
