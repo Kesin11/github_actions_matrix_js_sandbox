@@ -1,0 +1,35 @@
+name: "Upload/Download artifact"
+on: [push]
+
+jobs:
+  upload-artifact:
+    runs-on: ubuntu-latest
+    container:
+      image: "node:alpine"
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: "npm ci"
+      run: npm ci
+
+    - run: npm run build
+    - run: npm run test
+
+    - uses: actions/upload-artifact@master
+      with:
+        name: test-report
+        path: report/
+
+  download-artifact:
+    needs: ["upload-artifact"]
+    runs-on: ubuntu-latest
+    container:
+      image: "alpine:latest"
+
+    steps:
+    - uses: actions/download-artifact@master
+      with:
+        name: test-report
+
+    - name: Check to exist report/report.html
+      run: if [ ! -e report/report.html ]; then exit 1; fi
